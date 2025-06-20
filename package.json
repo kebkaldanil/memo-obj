@@ -1,0 +1,43 @@
+{
+  "name": "memo-obj",
+  "version": "0.0.1",
+  "description": "A deep structural memoization utility for objects to reuse identical shapes and references efficiently.",
+  "keywords": [
+    "memoization",
+    "weakref",
+    "finalizationregistry",
+    "structural-equality",
+    "deep memoization",
+    "object reuse",
+    "structural memoization",
+    "deep equality memoization",
+    "reference reuse",
+    "memoization utility",
+    "memoize object",
+    "cache object"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kebkaldanil/memo-obj.git"
+  },
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  },
+  "author": "kamikoto00",
+  "license": "MIT"
+}
