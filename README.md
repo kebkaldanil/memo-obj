@@ -11,7 +11,7 @@ A structural memoization utility for JavaScript/TypeScript objects using WeakRef
 ## Usage
 
 ```ts
-import memoObj from "./src/memoObj.ts";
+import memoObj from "memo-obj";
 
 const a = { foo: 1, bar: { baz: 2 } };
 const b = { foo: 1, bar: { baz: 2 } };
@@ -21,10 +21,10 @@ console.log(memoObj(a) === memoObj(b)); // true
 
 ## Requirements
 
-* Deno 1.20+ or Node.js 16+ with `--harmony-weak-refs` flag (for WeakRef support)
+Node.js 16+
 
 ## Running Tests
 
 ```sh
-deno test
+npm test
 ```
