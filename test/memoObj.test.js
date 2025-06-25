@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { memoObj } from "../dist/index.js";
+import { memoObj } from "../dist/index.mjs";
 
 test("same object returns itself", () => {
   const obj = { a: 1 };
@@ -10,18 +10,14 @@ test("same object returns itself", () => {
 });
 
 test("objects with same structure are reused", () => {
-  const obj1 = { a: 1 };
-  const obj2 = { a: 1 };
-  const ref1 = memoObj(obj1);
-  const ref2 = memoObj(obj2);
+  const ref1 = memoObj({ a: 1 });
+  const ref2 = memoObj({ a: 1 });
   assert.strictEqual(ref1, ref2);
 });
 
 test("objects with different values are not reused", () => {
-  const obj1 = { a: 1 };
-  const obj2 = { a: 2 };
-  const ref1 = memoObj(obj1);
-  const ref2 = memoObj(obj2);
+  const ref1 = memoObj({ a: 1 });
+  const ref2 = memoObj({ a: 2 });
   assert.notStrictEqual(ref1, ref2);
 });
 
@@ -34,10 +30,8 @@ test("objects with different keys are not reused", () => {
 });
 
 test("nested structures with same shape are reused", () => {
-  const obj1 = { a: { b: 2 } };
-  const obj2 = { a: { b: 2 } };
-  const ref1 = memoObj(obj1);
-  const ref2 = memoObj(obj2);
+  const ref1 = memoObj({ a: { b: 2 } });
+  const ref2 = memoObj({ a: { b: 2 } });
   assert.strictEqual(ref1, ref2);
   assert.strictEqual(ref1.a, ref2.a);
 });
@@ -58,8 +52,7 @@ test("handles circular references", () => {
 });
 
 test("objects with different symbols are not reused", () => {
-  const sym = Symbol("x");
-  const obj1 = { [sym]: 1 };
+  const obj1 = { [Symbol("x")]: 1 };
   const obj2 = { [Symbol("x")]: 1 };
   const ref1 = memoObj(obj1);
   const ref2 = memoObj(obj2);
@@ -80,4 +73,28 @@ test("primitives are returned as-is", () => {
   assert.strictEqual(memoObj("test"), "test");
   assert.strictEqual(memoObj(null), null);
   assert.strictEqual(memoObj(undefined), undefined);
+});
+
+test("instances of different classes but same properties are not reused", () => {
+  class A {
+    constructor(v) {
+      this.v = v;
+    }
+  }
+  class B {
+    constructor(v) {
+      this.v = v;
+    }
+  }
+  assert.notStrictEqual(memoObj(new A(1)), memoObj(new B(1)));
+});
+
+test("chenges in object properties are handled correctly", () => {
+  const o1 = {};
+  const o2 = {};
+  assert.strictEqual(memoObj(o1), memoObj(o2));
+  o1.a = 1;
+  assert.notStrictEqual(memoObj(o1), memoObj(o2));
+  o2.a = 1;
+  assert.strictEqual(memoObj(o1), memoObj(o2));
 });

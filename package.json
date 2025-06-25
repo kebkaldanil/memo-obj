@@ -1,6 +1,6 @@
 {
   "name": "memo-obj",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A deep structural memoization utility for objects to reuse identical shapes and references efficiently.",
   "keywords": [
     "memoization",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "node --test"
+    "test": "tsc && node --test"
   },
   "devDependencies": {
     "typescript": "^5.1.3"
